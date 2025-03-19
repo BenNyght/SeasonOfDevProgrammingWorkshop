@@ -1,6 +1,7 @@
 ﻿
 #include "raylib.h"
 #include "Player.h"
+#include "Asteroid.h"
 
 int main()
 {
@@ -8,6 +9,7 @@ int main()
     SetTargetFPS(60);
 
     Player player {};
+    Asteroid asteroids[30];
 
     while (WindowShouldClose() == false)
     {
@@ -16,6 +18,10 @@ int main()
         ClearBackground({30, 30, 30, 255});
 
         player.Update();
+        for (size_t i = 0; i < 30; i++)
+        {
+            asteroids[i].Update();
+        }
 
         EndDrawing();
     }
