@@ -12,6 +12,7 @@ int main()
     Player player {};
     Asteroid asteroids[30];
     int gameOver = false;
+    int score = 0;
 
     while (WindowShouldClose() == false)
     {
@@ -28,6 +29,7 @@ int main()
             {
                 gameOver = false;
 
+                score = 0;
                 player.Spawn();
                 for (int i = 0; i < 30; i++)
                 {
@@ -37,6 +39,8 @@ int main()
         }
         else
         {
+            score += 1;
+
             player.Update();
             for (int i = 0; i < 30; i++)
             {
@@ -48,6 +52,8 @@ int main()
                 }
             }
         }
+
+        DrawText(TextFormat("%04i", score), 20, 20, 40, GRAY);
 
         EndDrawing();
     }
