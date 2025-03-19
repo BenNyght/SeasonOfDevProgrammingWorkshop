@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Player.h"
 #include "Asteroid.h"
+#include "Input.h"
 
 int main()
 {
@@ -10,6 +11,7 @@ int main()
 
     Player player {};
     Asteroid asteroids[30];
+    int gameOver = false;
 
     while (WindowShouldClose() == false)
     {
@@ -17,10 +19,34 @@ int main()
 
         ClearBackground({30, 30, 30, 255});
 
-        player.Update();
-        for (size_t i = 0; i < 30; i++)
+        if (gameOver) 
         {
-            asteroids[i].Update();
+            DrawText("Move [WASD] to play again", 20, 80, 40, GRAY);
+
+            Vector2 movementDirection = Input::GetMovementDirection();
+            if (movementDirection.x != 0 || movementDirection.y != 0) 
+            {
+                gameOver = false;
+
+                player.Spawn();
+                for (int i = 0; i < 30; i++)
+                {
+                    asteroids[i].Spawn();
+                }
+            }
+        }
+        else
+        {
+            player.Update();
+            for (int i = 0; i < 30; i++)
+            {
+                asteroids[i].Update();
+
+                if (CheckCollisionRecs(player.rec, asteroids[i].rec)) 
+                {
+                    gameOver = true;
+                }
+            }
         }
 
         EndDrawing();
